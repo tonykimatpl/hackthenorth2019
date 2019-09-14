@@ -102,7 +102,7 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form ref="form" onSubmit={this.onSubmit}>
         <input
           name="username"
           value={username}
