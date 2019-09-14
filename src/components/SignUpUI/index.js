@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -74,6 +76,7 @@ const INITIAL_STATE = {
   lastName: '',
   email: '',
   password: '',
+  accountType: '',
   error: null,
 };
 
@@ -87,7 +90,7 @@ class SignUpFormBase extends React.Component {
   }
 
   handleSubmit = event => {
-    const { firstName, lastName, email, password } = this.state;
+    const { firstName, lastName, email, password, accountType} = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -97,7 +100,8 @@ class SignUpFormBase extends React.Component {
         const db = firestore()
         db.collection("professors").doc(email).set({
           firstName: firstName,
-          lastName: lastName
+          lastName: lastName,
+          accountType: accountType,
         })
         .then(function() {
           console.log("Success adding to database");
@@ -199,6 +203,14 @@ class SignUpFormBase extends React.Component {
                 />
               </Grid>
             </Grid>
+              <RadioGroup aria-label="gender" name="gender1" onChange={(event)=>{
+                this.setState({
+                  accountType: event.target.value
+                })
+              }}>
+                <FormControlLabel value="prof" control={<Radio />} label="I'm a Professor" />
+                <FormControlLabel value="student" control={<Radio />} label="I'm a Student" />
+              </RadioGroup>
             <Button
               type="submit"
               fullWidth
