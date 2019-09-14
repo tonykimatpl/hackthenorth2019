@@ -10,7 +10,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
-import SignInUIPage from '../SignInUI';
+import SignInUIPage from '../Landing';
 import SignUpUIPage from '../SignUpUI';
 import Session from '../Session';
 
