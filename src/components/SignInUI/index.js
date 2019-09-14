@@ -85,19 +85,21 @@ class SignInFormBase extends React.Component {
     super(props);
     this.state = { ...INITIAL_STATE };
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-  onSubmit = event => {
+  handleSubmit = event => {
     console.log('hello');
     const { email, password } = this.state;
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
+        console.log("Success")
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        console.log("Error")
         this.setState({ error });
       });
     event.preventDefault();
@@ -124,7 +126,7 @@ class SignInFormBase extends React.Component {
             <Typography component="h1" variant="h5">
               Login to Exam Goat
           </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -155,7 +157,7 @@ class SignInFormBase extends React.Component {
               />
               <Link href={ROUTES.SESSION}>
                 <Button
-                  type="button"
+                  type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
