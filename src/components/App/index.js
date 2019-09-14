@@ -20,7 +20,7 @@ import Session from '../Session';
 
 import * as ROUTES from '../../constants/routes';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,28 +36,24 @@ class App extends Component {
         : this.setState({ authUser: null });
     })
   }
-  
+
   componentWillUnmount() {
     this.listener();
   }
-      
-  <Router>
-    <div>
-      <Route exact path = {ROUTES.LANDING} component = {SignInUIPage}/>
-      <Route path = {ROUTES.SIGN_UP} component = {SignUpUIPage}/>
-      <Route path = {ROUTES.SIGN_IN} component = {SignInUIPage}/>
-      <Route path = {ROUTES.PASSWORD_FORGET} component = {PasswordForgetPage}/>
-      <Route path = {ROUTES.HOME} component = {HomePage} />
-      <Route path = {ROUTES.ACCOUNT} component = {AccountPage}/>
-      <Route path = {ROUTES.ADMIN} component = {AdminPage}/>
-      <Route path = {ROUTES.SESSION} component = {Session}/>
-    </div>
-  </Router>
+
 
   render() {
     return (
       <Router>
         <div>
+          <Route exact path={ROUTES.LANDING} component={SignInUIPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpUIPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInUIPage} />
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.HOME} component={HomePage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />
+          <Route path={ROUTES.SESSION} component={Session} />
           <Navigation authUser={this.state.authUser} />
         </div>
       </Router>
