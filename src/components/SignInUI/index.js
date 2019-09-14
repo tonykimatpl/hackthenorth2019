@@ -111,7 +111,7 @@ class SignInFormBase extends React.Component {
   render() {
 
     const { classes } = this.props;
-    
+
     const { email, password, error } = this.state;
     const isInvalid = password === '' || email === '';
     return (
@@ -162,7 +162,7 @@ class SignInFormBase extends React.Component {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  
+
                 >
                   Sign In
             </Button>
@@ -196,4 +196,3 @@ const SignInForm = compose(
 )(SignInFormBase);
 
 export default withStyles(useStyles)(SignInForm);
-

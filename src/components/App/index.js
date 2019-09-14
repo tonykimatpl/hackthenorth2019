@@ -54,7 +54,6 @@ class App extends React.Component {
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.SESSION} component={Session} />
-          <Navigation authUser={this.state.authUser} />
         </div>
       </Router>
     )
