@@ -20,23 +20,23 @@ class Firebase {
 
     // Auth API
     createUser = (email, password) => {
-        this.auth.createUserWithEmailAndPassword(email, password);
+        return this.auth.createUserWithEmailAndPassword(email, password);
     }
 
     signIn = (email, password) => {
-        this.auth.signInWithEmailAndPassword(email, password);
+        return this.auth.signInWithEmailAndPassword(email, password);
     }
 
     signOut = () => {
-        this.auth.signOut();
+        return this.auth.signOut();
     }
 
     resetPassword = (email) => {
-        this.auth.sendPasswordResetEmail(email);
+        return this.auth.sendPasswordResetEmail(email);
     }
 
     updatePassword = password => {
-        this.auth.currentUser.updatePassword(password);
+        return this.auth.currentUser.updatePassword(password);
     }
 }
 
