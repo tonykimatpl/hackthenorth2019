@@ -13,9 +13,9 @@ import Container from '@material-ui/core/Container';
 
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
-import { FirebaseContext, withFirebase } from '../Firebase'
+import { FirebaseContext, withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 import { firestore } from 'firebase';
@@ -207,11 +207,11 @@ class SignUpFormBase extends React.Component {
             >
               Sign Up
           </Button>
-            <Grid container justify="flex-end">
+            <Grid container justify="center">
               <Grid item>
-                <Button href={ROUTES.SIGN_IN} variant="body2">
+                <a href={ROUTES.SIGN_IN} variant="body2">
                   Already have an account? Sign in
-              </Button>
+              </a>
               </Grid>
             </Grid>
           </form>
