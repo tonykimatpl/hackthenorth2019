@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
-import firestore from "../Firebase/firebase.js";
+import firestore from "../Firebase/firebase.js";
+import firebase from 'firebase'
+
 
 export default class Main extends Component {
 
@@ -17,11 +19,9 @@ export default class Main extends Component {
 
 
   onChange(newValue) {
-    // return;
 
     console.log('change', newValue);
     var change = newValue
-    console.log(this)
 
     // this.state.textInput = newValue
 
@@ -29,12 +29,27 @@ export default class Main extends Component {
       textInput: newValue
     })
   }
+addUser = e => {
+    console.log("hola")
+    e.preventDefault();
+    const db = firebase.firestore();
+    const userRef = db.collection("yo").add({
+      name: this.state.textInput,
+    });  
+    this.setState({
+      name: "",
+    });
+  };
 
   
   render() {
     return (
       <div>
+
+
         <AceEditor
+          mode = "ace/mode/javascript"
+          theme = "tomorrow_night.js"
           onChange={this.onChange}
           name="UNIQUE_ID_OF_DIV"
           editorProps={{
@@ -42,7 +57,12 @@ export default class Main extends Component {
           }}
           value={this.state.textInput}
         />
-        {this.state.textInput}
+              <button type="submit" onClick={this.addUser}>Submit Q1</button>
+              <button type="submit" onClick={this.addUser}>Submit Q1</button>
+              <button type="submit" onClick={this.addUser}>Submit Q1</button>
+
+
+{/*         {this.state.textInput} */}
       </div>
       
       
