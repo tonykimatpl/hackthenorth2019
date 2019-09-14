@@ -15,7 +15,6 @@ import * as ROUTES from '../../constants/routes';
 import { firestore, auth } from 'firebase';
 
 const NewExam = () => (
-
     <div>
         <NewExamForm />
     </div>
