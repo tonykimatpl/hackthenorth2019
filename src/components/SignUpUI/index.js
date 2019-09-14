@@ -18,6 +18,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { FirebaseContext, withFirebase } from '../Firebase'
 
 import * as ROUTES from '../../constants/routes';
+import { firestore } from 'firebase';
 
 const SignUpPage = () => (
   <div>
@@ -69,7 +70,8 @@ const useStyles = (theme) => {
 
 
 const INITIAL_STATE = {
-  username: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
   error: null,
@@ -85,17 +87,30 @@ class SignUpFormBase extends React.Component {
   }
 
   handleSubmit = event => {
-    const { username, email, password } = this.state;
+    const { firstName, lastName, email, password } = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ error });
-      });
+
+        const db = firestore()
+        db.collection("professors").doc(email).set({
+          firstName: firstName,
+          lastName: lastName
+        })
+        .then(function() {
+          console.log("Success adding to database");
+        })
+        .catch(function(error) {
+          console.error("Error adding to database");
+          console.error(error);
+        });
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ error });
+        });
     event.preventDefault();
   };
   onChange = event => {
@@ -109,7 +124,6 @@ class SignUpFormBase extends React.Component {
     const {
       firstName,
       lastName,
-      username,
       email,
       password,
       error,
@@ -118,7 +132,8 @@ class SignUpFormBase extends React.Component {
     const isInvalid =
       password === '' ||
       email === '' ||
-      username === '';
+      firstName === '' ||
+      lastName === '';
 
     return (
 

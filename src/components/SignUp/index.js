@@ -20,9 +20,6 @@ const INITIAL_STATE = {
 };
 
 class SignUpFormBase extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   onSubmit = event => {
     const { username, email, passwordOne } = this.state;
@@ -57,7 +54,7 @@ class SignUpFormBase extends Component {
         username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form ref="form" onSubmit={this.onSubmit}>
         <input
           name="username"
           value={username}
