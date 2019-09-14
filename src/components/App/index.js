@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
+import { withFirebase } from '../Firebase'
 
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
@@ -19,7 +20,27 @@ import Session from '../Session';
 
 import * as ROUTES from '../../constants/routes';
 
-const App = () => (
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authUser: null,
+    }
+  }
+
+  componentDidMount() {
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState({ authUser })
+        : this.setState({ authUser: null });
+    })
+  }
+  
+  componentWillUnmount() {
+    this.listener();
+  }
+      
   <Router>
     <div>
       <Route exact path = {ROUTES.LANDING} component = {SignInUIPage}/>
@@ -32,6 +53,16 @@ const App = () => (
       <Route path = {ROUTES.SESSION} component = {Session}/>
     </div>
   </Router>
-);
 
-export default App;
+  render() {
+    return (
+      <Router>
+        <div>
+          <Navigation authUser={this.state.authUser} />
+        </div>
+      </Router>
+    )
+  }
+}
+
+export default withFirebase(App);
