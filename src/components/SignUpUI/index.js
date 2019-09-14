@@ -71,8 +71,7 @@ const useStyles = (theme) => {
 const INITIAL_STATE = {
   username: '',
   email: '',
-  passwordOne: '',
-  passwordTwo: '',
+  password: '',
   error: null,
 };
 
@@ -81,19 +80,23 @@ class SignUpFormBase extends React.Component {
     super(props);
     this.state = { ...INITIAL_STATE };
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+  handleSubmit = event => {
+    console.log("Hello");
+    const { username, email, password } = this.state;
     this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
+        console.log("Success");
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        console.log("Error");
+        console.log(error);
         this.setState({ error });
       });
     event.preventDefault();
@@ -111,14 +114,12 @@ class SignUpFormBase extends React.Component {
       lastName,
       username,
       email,
-      passwordOne,
-      passwordTwo,
+      password,
       error,
     } = this.state;
 
     const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '' ||
+      password === '' ||
       email === '' ||
       username === '';
 
@@ -133,7 +134,7 @@ class SignUpFormBase extends React.Component {
           <Typography component="h1" variant="h5">
             Sign up
         </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -187,11 +188,10 @@ class SignUpFormBase extends React.Component {
               </Grid>
             </Grid>
             <Button
-              type="button"
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
             >
               Sign Up
           </Button>
