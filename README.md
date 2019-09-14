@@ -1,1 +1,1 @@
-# hackthenorth2019
+Hack The North 2019
