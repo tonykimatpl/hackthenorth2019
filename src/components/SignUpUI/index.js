@@ -32,7 +32,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Exam Goat
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -209,9 +209,9 @@ class SignUpFormBase extends React.Component {
           </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href={ROUTES.LANDING} variant="body2">
+                <Button href={ROUTES.SIGN_IN} variant="body2">
                   Already have an account? Sign in
-              </Link>
+              </Button>
               </Grid>
             </Grid>
           </form>
