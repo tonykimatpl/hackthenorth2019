@@ -5,22 +5,19 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 
-import { FirebaseContext, withFirebase } from '../Firebase';
-
-import * as ROUTES from '../../constants/routes';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import { withFirebase } from '../Firebase';
 import { firestore } from 'firebase';
+import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
   <div>
