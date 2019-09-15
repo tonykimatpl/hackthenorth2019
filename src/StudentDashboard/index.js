@@ -57,7 +57,7 @@ const StudentDashboard = () => (
     error: null,
   };
   
-  class SignUpFormBase extends React.Component {
+  class StudentDashboardBase extends React.Component {
     constructor(props) {
       super(props);
       this.state = { ...INITIAL_STATE };
@@ -220,6 +220,6 @@ const StudentDashboard = () => (
   const StudentDashboardForm = compose(
     withRouter,
     withFirebase
-  )(StudentDashboard);
+  )(StudentDashboardBase);
   
   export default withStyles(useStyles)(StudentDashboardForm);
