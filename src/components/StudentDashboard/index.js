@@ -10,7 +10,7 @@ import { firestore } from 'firebase';
 import Container from '@material-ui/core/Container';
 import * as ROUTES from '../../constants/routes';
 
-const StudentDashboard = () => (
+const StudentDashboardPage = () => (
   <div>
     <StudentDashboardForm />
   </div>
@@ -69,7 +69,7 @@ const INITIAL_STATE = {
   error: null,
 };
 
-class SignUpFormBase extends React.Component {
+class StudentDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
