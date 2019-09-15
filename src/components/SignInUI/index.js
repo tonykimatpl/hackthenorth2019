@@ -99,7 +99,8 @@ class SignInFormBase extends React.Component {
         this.setState({ ...INITIAL_STATE });
         const db = firestore();
         try {
-          let professor = db.collection('professor').doc(email);
+          let professor = db.collection('professors').doc(email);
+          this.log.console("PROFESSOR" + professor);
           this.props.history.push(ROUTES.PROF_DASHBOARD);
         } catch (error) {
           try {
