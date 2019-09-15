@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container';
 import * as ROUTES from '../../constants/routes';
 
+
 const StudentDashboardPage = () => (
   <div>
     <StudentDashboardForm />
@@ -76,13 +77,25 @@ class StudentDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
-  handleSubmit = event => {
+
+  signOut() {
+    let state = this;
+    this.props.firebase.doSignOut().then(function() {
+      // Sign-out successful.
+      console.log("SIGN OUT")
+      state.props.history.push(ROUTES.SIGN_IN);
+    }).catch(function(error) {
+      // An error happened.
+    });
+
+  }
+  checkForExams() {
     const { firstName, lastName, email, password } = this.state;
     //Check if student has exam
     let db = firestore();
-    let student = db.collection("students").doc(this.props.firebase.auth.currentUser.email);
+    let student = db.collection("students").doc(this.props.firebase.getUser().email);
     let getDoc = student.get()
       .then(doc => {
         if (!doc.exists) {
@@ -94,20 +107,22 @@ class StudentDashboard extends React.Component {
         }
       })
       .catch(err => {
+        console.log("ERROR")
         //student does not have an exam now
       });
-
-    event.preventDefault();
-  };
+  }
 
   render() {
+    this.checkForExams()
     if (!hasExam) {
+
+
       return (
       <Container component="main" maxWidth="xs">
       You do not have any exams!
       <Grid item xs={6}>
 
-      <button type="submit" onClick={this.props.firebase.auth().signOut()}>
+      <button onClick={this.signOut}>
         Sign Out
       </button>
       </Grid>
@@ -116,12 +131,17 @@ class StudentDashboard extends React.Component {
       </Box>
     </Container>
       )
+
+
     } else {
+
+
       return (
         <Container component="main" maxWidth="xs">
           Test
         </Container>
       )
+      
       
     }
   }

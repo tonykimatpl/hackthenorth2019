@@ -95,7 +95,6 @@ class SignInFormBase extends React.Component {
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
-        console.log("Success")
         this.setState({ ...INITIAL_STATE });
         const db = firestore();
 
