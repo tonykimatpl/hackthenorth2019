@@ -29,31 +29,71 @@ class RegisterStudentsBase extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.populateList = this.populateList.bind(this);
   }
 
   handleSubmit = event => {
 
+    let student = {
+
+    }
     const { studentEmail } = this.state;
     let db = firestore();
     let user = this.props.firebase.getUser();
     console.log(user.email);
     console.log(studentEmail);
-    let exam = db.collection('exams').doc(user.email)
-      .collection('students').doc(studentEmail).set({
-        studentEmail: studentEmail
-      })
-      .then(function() {
-        alert(`${studentEmail} added to exam`)
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    let docRef = db.collection('students').doc(studentEmail);
+
+    docRef.get().then(function (doc) {
+      console.log(doc.data());
+      if (doc.exists) {
+        student = {
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          exam: user.email
+        }
+        db.collection('students').doc(studentEmail).set(student)
+          .then(function () {
+            alert(`${studentEmail} added to exam`)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        let exam = db.collection('exams').doc(user.email)
+          .collection('students').doc(studentEmail).set({
+            studentEmail: studentEmail
+          })
+
+        let list = document.getElementById('list')
+
+        let node = document.createElement('LI')
+        let textNode = document.createTextNode(`${studentEmail}`)
+
+        node.appendChild(textNode);
+        list.appendChild(node);
+        
+      } else {
+        alert('Student does not have an account yet!')
+      }
+    })
 
     event.preventDefault();
   }
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  populateList() {
+
+    // let list = document.getElementById('list');
+    // let db = firestore();
+    // let docRef = db.collection(this.state.userAuth.email).doc('students');
+
+    // docRef.get().then(function(doc) {
+    //   console.log(doc);
+    // })
   }
 
   render() {
@@ -87,6 +127,12 @@ class RegisterStudentsBase extends React.Component {
             </Box>
           </form>
         </Box>
+
+        <div id='container'>
+          <ul id='list'>
+            {this.populateList()}
+          </ul>
+        </div>
       </React.Fragment>
     )
   }
