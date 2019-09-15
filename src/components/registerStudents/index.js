@@ -1,19 +1,19 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import { withRouter } from 'react-router-dom';
+import React from './node_modules/react';
+import Box from './node_modules/@material-ui/core/Box';
+import { withRouter } from './node_modules/react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import { firestore } from 'firebase';
-import Firebase from 'firebase';
+import { firestore } from './node_modules/firebase';
+import Firebase from './node_modules/firebase';
 import * as ROUTES from '../../constants/routes';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import clsx from './node_modules/clsx';
+import { makeStyles } from './node_modules/@material-ui/core/styles';
+import MenuItem from './node_modules/@material-ui/core/MenuItem';
+import TextField from './node_modules/@material-ui/core/TextField';
+import Button from './node_modules/@material-ui/core/Button';
+import { ActionSettingsPower } from 'material-ui/svg-icons';
 
 const registerStudents = () => (
-
   <div>
     <RegisterStudentsForm />
   </div>
@@ -22,6 +22,34 @@ const registerStudents = () => (
 let INITIAL_STATE = {
   studentEmail: ''
 }
+
+let saveText = function() {
+  let answerString = ""
+  const db = firebase.firestore();
+  const examInfo = db.collection("exams").doc(user.email).get()
+  .then(doc => {
+    let data = doc.data();
+    answerString += data.questionOne + "\n";
+    db.collection("students").doc(studentEmail).get()
+    .then(docs => {
+      let dat = docs.data();
+      answerString += dat.answer1 + "\n\n";
+    })
+    answerString += data.questionTwo + "\n";
+    db.collection("students").doc(studentEmail).get()
+    .then(docs => {
+      let dat = docs.data();
+      answerString += dat.answer2 + "\n\n";
+    })
+    answerString += data.questionThree + "\n";
+    db.collection("students").doc(studentEmail).get()
+    .then(docs => {
+      let dat = docs.data();
+      answerString += dat.answer3;
+    })
+  })
+}
+
 class RegisterStudentsBase extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +58,7 @@ class RegisterStudentsBase extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.populateList = this.populateList.bind(this);
+    
   }
 
   handleSubmit = event => {
@@ -54,7 +83,7 @@ class RegisterStudentsBase extends React.Component {
         }
         db.collection('students').doc(studentEmail).set(student)
           .then(function () {
-            alert(`${studentEmail} added to exam`)
+            alert( ${studentEmail} added to exam)
           })
           .catch(function (error) {
             console.log(error);
@@ -70,7 +99,8 @@ class RegisterStudentsBase extends React.Component {
         let node = document.createElement('LI')
         let buttonNode = document.createElement('BUTTON');
 
-        buttonNode.innerHTML = `${studentEmail}`
+        buttonNode.innerHTML = ${studentEmail};
+        buttonNode.onclick="saveText()";
         node.appendChild(buttonNode);
         list.appendChild(node);
 
@@ -144,4 +174,4 @@ const RegisterStudentsForm = compose(
   withFirebase
 )(RegisterStudentsBase)
 
-export default registerStudents;
+export default RegisterStudentsForm;
