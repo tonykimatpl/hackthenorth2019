@@ -12,3 +12,4 @@ export const EXAM = '/exam';
 export const STUDENT_DASHBOARD = '/studentdashboard';
 export const PROF_DASHBOARD = '/profdashboard';
 export const CONGRATS = '/congrats'
+export const REG_STUDENTS = '/registerstudents';
