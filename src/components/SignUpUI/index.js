@@ -97,19 +97,32 @@ class SignUpFormBase extends React.Component {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
 
-        const db = firestore()
-        db.collection("professors").doc(email).set({
-          firstName: firstName,
-          lastName: lastName,
-          accountType: accountType,
-        })
-        .then(function() {
-          console.log("Success adding to database");
-        })
-        .catch(function(error) {
-          console.error("Error adding to database");
-          console.error(error);
-        });
+        const db = firestore();
+        if (accountType != "student") {
+          db.collection("professors").doc(email).set({
+            firstName: firstName,
+            lastName: lastName,
+          })
+          .then(function() {
+            console.log("Success adding to database");
+          })
+          .catch(function(error) {
+            console.error("Error adding to database");
+            console.error(error);
+          });
+        } else {
+          db.collection("students").doc(email).set({
+            firstName: firstName,
+            lastName: lastName,
+          })
+          .then(function() {
+            console.log("Success adding to database");
+          })
+          .catch(function(error) {
+            console.error("Error adding to database");
+            console.error(error);
+          });
+        }
         })
         .catch(error => {
           console.log(error);
