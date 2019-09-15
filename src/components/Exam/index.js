@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { spacing } from '@material-ui/system';
 import * as ROUTES from '../../constants/routes';
+const ms = require('pretty-ms')
 
 export default class Main extends Component {
 
@@ -28,13 +29,19 @@ export default class Main extends Component {
             userAuth: undefined,
             q1: '',
             q2: '',
-            q3: ''
+            q3: '',
+            time: 0,
+            start: 0,
+            isOn: false
 
         }
+        this.startTimer = this.startTimer.bind(this)
         this.addAns = this.addAns.bind(this);
+
         this.onChange = this.onChange.bind(this);
         this.onChange2 = this.onChange2.bind(this);
         this.onChange3 = this.onChange3.bind(this);
+
         this.obj = this;
 
     }
@@ -68,9 +75,6 @@ export default class Main extends Component {
                                 if (!doc1) {
                                     console.log('No such document!');
                                 } else {
-                                    // this.q1 = doc1.data().questionOne
-                                    // this.q2 = doc1.data().questionTwo
-                                    // this.q3 = doc1.data().questionThree
 
                                     this.setState({
                                         ...this.state,
@@ -122,7 +126,8 @@ export default class Main extends Component {
 
     addAns = e => {
 
-        e.preventDefault();
+        if (e)
+            e.preventDefault();
         const db = firebase.firestore();
         console.log(this.state.userAuth.email)
 
@@ -140,39 +145,60 @@ export default class Main extends Component {
         });
         this.props.history.push(ROUTES.CONGRATS);
     };
-    // getQus = e => {
+    startTimer() {
+        this.setState({
+            time: this.state.time,
+            start: Date.now() - this.state.time,
+            isOn: true
 
-    //     e.preventDefault();
-    //     const db = firebase.firestore();
-    //     const userRef = db.collection("users").doc("bro").get()
-    //         .then(doc => {
-    //             if (!doc.exists) {
-    //                 console.log('No such document!');
-    //             } else {
-    //                 let data = doc.data();
-    //                 console.log(data.answer1);
+        })
+        let timing = 10
+
+        this.timer = setInterval(() => this.setState(
+            (state, props) => {
+
+                let remainingTime = (timing * 1000) - (Date.now() - this.state.start)
+                var calculated = true
+                if (remainingTime <= 0) {
+                    calculated = false
+                    clearInterval(this.timer)
+                    this.addAns()
+
+                }
+                console.log(calculated)
+                return {
+                    time: remainingTime, isOn: calculated
+                }
+            })
+
+            , 1)
 
 
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.log('Error getting document', err);
-    //         });
-    // };
+
+        console.log(this.state.start)
+    }
 
     render() {
+        let start = (this.state.time == 0) ?
+            <button onClick={this.startTimer}>start</button> :
+            null
         return (
 
             <div>
-
                 <Container component="main" maxWidth="sm">
+                    <h3>timer:{ms(this.state.time)}</h3>
+                    {start}
+
                     <CssBaseline />
-                    <button type="submit" onClick={this.getQus}>Start</button>
+                    <button type="submit" onClick={this.getQus}>View Questions</button>
+
 
                     <Typography component="h1" variant="h5" align="center">
-                        Questions        </Typography>
+                        Questions
+                    </Typography>
                     <Typography component="h4" variant="h9  ">
-                        {this.state.q1}        </Typography>
+                        {this.state.q1}
+                    </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
@@ -186,7 +212,8 @@ export default class Main extends Component {
                     <hr>
                     </hr>
                     <Typography component="h4" variant="h9">
-                        {this.state.q2}         </Typography>
+                        {this.state.q2}
+                    </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
@@ -200,7 +227,8 @@ export default class Main extends Component {
                     <hr>
                     </hr>
                     <Typography component="h4" variant="h9">
-                        {this.state.q3}         </Typography>
+                        {this.state.q3}
+                    </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
@@ -212,9 +240,8 @@ export default class Main extends Component {
                         value={this.state.textInput3}
                     />
 
-                    <button type="submit" onClick={this.addAns}>Submit</button>
+                    <button type="submit" onClick={this.addAns}><h3>Submit</h3></button>
 
-                    {/*         {this.state.textInput} */}
                 </Container>
 
             </div>
