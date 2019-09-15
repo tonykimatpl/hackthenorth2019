@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import { firestore } from 'firebase';
+import Firebase from 'firebase';
 import * as ROUTES from '../../constants/routes';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,5 +36,12 @@ const registerStudents = () => (
           </Box>
   </div>
 );
+
+let db = firestore();
+Firebase.db.collection("exams").doc("CEG2136").collection("students")
+.onSnapshot(function(doc) {
+console.log("Current data: ", doc.data());
+});
+
 
 export default registerStudents;
