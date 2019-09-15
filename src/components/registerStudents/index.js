@@ -9,32 +9,31 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const registerStudents = () => (
+
   <div>
     <Box display = "flex" justifyContent = "center" alignItems = "center">
         <h1>Student Exam Registration Portal</h1>
     </Box>
+
+    <Box display = "flex" justifyContent = "center" alignItems = "center">
+    <form noValidate autoComplete="off">
+      <TextField
+        id="outlined-name"
+        label="E-mail"
+        margin="normal"
+        variant="outlined"
+      />
+      </form>
+      </Box>
+      <Box display = "flex" justifyContent = "center" alignItems = "center">
+        <Button variant="contained" color="primary">
+          Add Student
+          </Button>
+          </Box>
   </div>
 );
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-}));
-
 
 export default registerStudents;
