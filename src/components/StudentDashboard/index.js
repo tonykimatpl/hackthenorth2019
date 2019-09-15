@@ -2,7 +2,8 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
@@ -75,7 +76,6 @@ class StudentDashboard extends React.Component {
     this.state = { ...INITIAL_STATE };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
   handleSubmit = event => {
@@ -98,146 +98,31 @@ class StudentDashboard extends React.Component {
 
     event.preventDefault();
   };
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  displayNoExam() {
-    return (
-    <Container component="main" maxWidth="xs">
-      You do not have any exams!
-      <Button>
-       Sign Out
-     </Button>
-    </Container>
-
-    )
-  }
-  displayExam() {
-
-  }
 
   render() {
-    if (hasExam) {
+    if (!hasExam) {
       return (
-        this.displayExam()
+      <Container component="main" maxWidth="xs">
+      You do not have any exams!
+      <Grid item xs={6}>
+
+      <button type="submit" onClick={props.firebase.auth().signOut()}>
+        Sign Out
+      </button>
+      </Grid>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
+    </Container>
       )
     } else {
       return (
-        this.displayNoExam()
+        <Container component="main" maxWidth="xs">
+          Test
+        </Container>
       )
       
-    }/*
-      const { classes } = this.props;
-  
-      const {
-        firstName,
-        lastName,
-        email,
-        password,
-        error,
-      } = this.state;
-  
-      const isInvalid =
-        password === '' ||
-        email === '' ||
-        firstName === '' ||
-        lastName === '';
-  
-      return (
-  
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-          </Typography>
-            <form className={classes.form} onSubmit={this.handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="fname"
-                    name="firstName"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                    onChange={this.onChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="lname"
-                    onChange={this.onChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={this.onChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={this.onChange}
-                  />
-                </Grid>
-              </Grid>
-                <RadioGroup aria-label="gender" name="gender1" onChange={(event)=>{
-                  this.setState({
-                    accountType: event.target.value
-                  })
-                }}>
-                  <FormControlLabel value="prof" control={<Radio />} label="I'm a Professor" />
-                  <FormControlLabel value="student" control={<Radio />} label="I'm a Student" />
-                </RadioGroup>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                Sign Up
-            </Button>
-              <Grid container justify="center">
-                <Grid item>
-                  <a href={ROUTES.SIGN_IN} variant="body2">
-                    Already have an account? Sign in
-                </a>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </Container>
-      );*/
+    }
   }
 }
 
