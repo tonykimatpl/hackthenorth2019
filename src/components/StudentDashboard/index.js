@@ -103,9 +103,15 @@ class StudentDashboard extends React.Component {
   }
 
   displayNoExam() {
-    return ( <Container component="main" maxWidth="xs">
+    return (
+    <Container component="main" maxWidth="xs">
       You do not have any exams!
-    </Container> )
+      <Button>
+       Sign Out
+     </Button>
+    </Container>
+
+    )
   }
   displayExam() {
 
