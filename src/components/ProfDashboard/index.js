@@ -15,6 +15,9 @@ const ProfDashboardPage = () => (
   </div>
 )
 
+let INITIAL_STATE = {
+  lastName: ''
+}
 
 
 class ProfDashboard extends React.Component {
@@ -22,13 +25,13 @@ class ProfDashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setLastName = this.getLastName.bind(this);
+    this.state = INITIAL_STATE;
   }
 
-  getLastName() {
+  componentDidMount() {
     let db = firestore();
 
-    let data;
+    let t = this;
     let user = this.props.firebase.getUser();
     let professor = db.collection('professors').doc(user.email);
     let getDoc = professor.get()
@@ -36,21 +39,19 @@ class ProfDashboard extends React.Component {
         if (!doc.exists) {
           console.log('No such document!')
         } else {
-          data = doc.data().lastName;
-          console.log(doc.data());
+          this.setState({...INITIAL_STATE, lastName: doc.data().lastName});
         }
       })
-    return data;
   }
 
   render() {
 
-    let lastName = this.getLastName();
+    console.log('hello');
 
     return (
       <div>
         <Box display="flex" justifyContent="center" alignItems="center">
-          <h1>Welcome Professor</h1>
+          <h1>Welcome Professor {this.state.lastName}</h1>
         </Box>
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
