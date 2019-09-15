@@ -68,11 +68,12 @@ class RegisterStudentsBase extends React.Component {
         let list = document.getElementById('list')
 
         let node = document.createElement('LI')
-        let textNode = document.createTextNode(`${studentEmail}`)
+        let buttonNode = document.createElement('BUTTON');
 
-        node.appendChild(textNode);
+        buttonNode.innerHTML = `${studentEmail}`
+        node.appendChild(buttonNode);
         list.appendChild(node);
-        
+
       } else {
         alert('Student does not have an account yet!')
       }
