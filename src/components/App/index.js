@@ -5,8 +5,7 @@ import {
 } from 'react-router-dom';
 import { withFirebase } from '../Firebase'
 
-import Navigation from '../Navigation';
-import LandingPage from '../Landing';
+import NewExamPage from '../NewExam';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
@@ -54,6 +53,7 @@ class App extends React.Component {
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.SESSION} component={Session} />
+          <Route path={ROUTES.NEW_EXAM} component={NewExamPage} />
           <Route path={ROUTES.EXAM} component={Exam} />
         </div>
       </Router>

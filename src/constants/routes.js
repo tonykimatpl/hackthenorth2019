@@ -6,4 +6,6 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const SESSION = '/session';
+export const NEW_EXAM = '/newexam';
+export const EXAMS = '/exams';
 export const EXAM = '/exam';

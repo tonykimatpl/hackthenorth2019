@@ -102,6 +102,7 @@ class SignInFormBase extends React.Component {
       .catch(error => {
         console.log("Error")
         this.setState({ error });
+        console.log(error);
       });
     event.preventDefault();
   }
@@ -170,7 +171,7 @@ class SignInFormBase extends React.Component {
               </Link>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to='/' variant="body2">
                     Forgot password?
                 </Link>
                 </Grid>
