@@ -132,14 +132,15 @@ class StudentDashboard extends React.Component {
 
 
     } else {
+      let obj = this;
       return (
         <Container component="main" maxWidth="xs">
           You have an exam!
           <Grid item xs={6}>
-          <button onClick={this.startExam}>
+          <button onClick={obj.startExam()}>
             Start
           </button>
-          <button onClick={new Request(function() { this.startExam() })}>
+          <button onClick={this.signOut}>
             Sign Out
           </button>
           </Grid>
