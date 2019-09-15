@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import { firestore } from 'firebase';
+import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container';
 import * as ROUTES from '../../constants/routes';
 
