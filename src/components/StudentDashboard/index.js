@@ -71,13 +71,12 @@ const INITIAL_STATE = {
 };
 
 class StudentDashboard extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   handleSubmit = event => {
     const { firstName, lastName, email, password } = this.state;
     //Check if student has exam
@@ -106,7 +105,7 @@ class StudentDashboard extends React.Component {
       You do not have any exams!
       <Grid item xs={6}>
 
-      <button type="submit" onClick={props.firebase.auth().signOut()}>
+      <button type="submit" onClick={this.props.firebase.auth().signOut()}>
         Sign Out
       </button>
       </Grid>
