@@ -9,5 +9,5 @@ export const SESSION = '/session';
 export const NEW_EXAM = '/newexam';
 export const EXAMS = '/exams';
 export const EXAM = '/exam';
-export const STUDENT_DASHBOARD = 'studentdashboard';
-export const PROF_DASHBOARD = 'profdashboard';
+export const STUDENT_DASHBOARD = '/studentdashboard';
+export const PROF_DASHBOARD = '/profdashboard';
