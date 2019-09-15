@@ -98,19 +98,25 @@ class SignInFormBase extends React.Component {
         console.log("Success")
         this.setState({ ...INITIAL_STATE });
         const db = firestore();
-        try {
-          let professor = db.collection('professor').doc(email);
-          this.props.history.push(ROUTES.PROF_DASHBOARD);
-        } catch (error) {
-          try {
-            let student = db.collection('students').doc(email);
-            this.props.history.push(ROUTES.STUDENT_DASHBOARD);
-          } catch (error) {
-            console.log('Error');
-            this.setState({ error });
-            console.log(error);
+
+        let state = this;
+        let docRef = db.collection('professors').doc(email);
+
+        docRef.get().then(function(doc) {
+          if(doc.exists) {
+            state.props.history.push(ROUTES.PROF_DASHBOARD);
+          } else {
+            docRef = db.collection('students').doc(email);
+            docRef.get().then(function(doc) {
+              if (doc.exists) {
+                state.props.history.push(ROUTES.STUDENT_DASHBOARD);
+
+              } else {
+                throw new Error('Account Does Not Exist')
+              }
+            })
           }
-        }
+        })
       })
       .catch(error => {
         console.log("Error")
