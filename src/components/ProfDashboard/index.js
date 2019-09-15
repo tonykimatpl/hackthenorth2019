@@ -16,15 +16,20 @@ const ProfDashboardPage = () => (
 )
 
 
+
 class ProfDashboard extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.setLastName = this.getLastName.bind(this);
+  }
+
+  getLastName() {
     let db = firestore();
-    let user = this.props.firebase.getUser();
 
     let data;
+    let user = this.props.firebase.getUser();
     let professor = db.collection('professors').doc(user.email);
     let getDoc = professor.get()
       .then(doc => {
@@ -32,17 +37,20 @@ class ProfDashboard extends React.Component {
           console.log('No such document!')
         } else {
           data = doc.data().lastName;
+          console.log(doc.data());
         }
       })
-    this.lastName = data;
+    return data;
   }
 
   render() {
 
+    let lastName = this.getLastName();
+
     return (
       <div>
         <Box display="flex" justifyContent="center" alignItems="center">
-          <h1>Welcome Mr. {this.lastName}</h1>
+          <h1>Welcome Professor</h1>
         </Box>
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
@@ -68,4 +76,4 @@ const ProfDashboardForm = compose(
   withFirebase
 )(ProfDashboard);
 
-export default ProfDashboard;
+export default ProfDashboardForm;

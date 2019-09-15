@@ -86,6 +86,7 @@ class StudentDashboard extends React.Component {
     let getDoc = student.get()
       .then(doc => {
         if (!doc.exists) {
+          console.log('No such document!')
         } else {
           let data = doc.data().exam;
           //If above line did not cause an exception, then the student has an exam
