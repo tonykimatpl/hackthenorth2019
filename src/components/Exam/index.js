@@ -24,13 +24,82 @@ export default class Main extends Component {
             textInput1: '',
             textInput2: '',
             textInput3: '',
+            userAuth: undefined,
+            q1: '',
+            q2: '',
+            q3: ''
+
         }
         this.addAns = this.addAns.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onChange2 = this.onChange2.bind(this);
         this.onChange3 = this.onChange3.bind(this);
+        this.obj = this;
 
     }
+
+    componentDidMount() {
+        const that = this;
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                that.setState({
+                    userAuth: user,
+                })
+            } else {
+                // No user is signed in.
+            }
+        });
+    }
+    getQus = e => {
+
+        e.preventDefault();
+        const db = firebase.firestore();
+        try {
+            let examInfo = db.collection("students").doc(this.state.userAuth.email).get()
+                .then(doc => {
+                    if (!doc.data().exam) {
+                        console.log('No such document!');
+                    } else {
+
+                        let data = doc.data();
+                        const questions = db.collection("exams").doc(data.exam).get()
+                            .then(doc1 => {
+                                console.log(doc1.data(), "yoyoyoy")
+                                if (!doc1) {
+                                    console.log('No such document!');
+                                } else {
+                                    // this.q1 = doc1.data().questionOne
+                                    // this.q2 = doc1.data().questionTwo
+                                    // this.q3 = doc1.data().questionThree
+
+                                    this.setState({
+                                        ...this.state,
+                                        q1: doc1.data().questionOne
+                                    })
+                                    this.setState({
+                                        ...this.state,
+                                        q2: doc1.data().questionTwo
+                                    })
+                                    this.setState({
+                                        ...this.state,
+                                        q3: doc1.data().questionThree
+                                    })
+
+                                    console.log(doc1.data().questionOne);
+                                }
+                            })
+
+                    }
+                })
+                .catch(err => {
+                    console.log('Error getting document', err);
+                });
+        }
+        catch (e) {
+            console.log(e)
+        }
+    };
+
 
     onChange(newValue) {
         this.setState({
@@ -55,11 +124,9 @@ export default class Main extends Component {
 
         e.preventDefault();
         const db = firebase.firestore();
-        // let user = this.props.firebase.getUser();
-        console.log(this.props)
+        console.log(this.state.userAuth.email)
 
-
-        const userRef = db.collection("students").doc("bro").set({
+        const userRef = db.collection("students").doc(this.state.userAuth.email).set({
             answer1: this.state.textInput1,
             answer2: this.state.textInput2,
             answer3: this.state.textInput3,
@@ -72,38 +139,25 @@ export default class Main extends Component {
 
         });
     };
-    getQus = e => {
+    // getQus = e => {
 
-        e.preventDefault();
-        const db = firebase.firestore();
-        const userRef = db.collection("users").doc("bro").get()
-            .then(doc => {
-                if (!doc.exists) {
-                    console.log('No such document!');
-                } else {
-                    let data = doc.data();
-                    console.log(data.answer1);
+    //     e.preventDefault();
+    //     const db = firebase.firestore();
+    //     const userRef = db.collection("users").doc("bro").get()
+    //         .then(doc => {
+    //             if (!doc.exists) {
+    //                 console.log('No such document!');
+    //             } else {
+    //                 let data = doc.data();
+    //                 console.log(data.answer1);
 
 
-                }
-            })
-            .catch(err => {
-                console.log('Error getting document', err);
-            });
-    };
-    // let professor = db.collection("professors").doc(this.props.firebase.auth.currentUser.email);
-    //     let getDoc = professor.get()
-    //       .then(doc => {
-    //       if (!doc.exists) {
-    //         console.log('No such document!');
-    //       } else {
-    //         let data = doc.data().lastName;
-    //         console.log(data);
-    //       }
-    //     })
-    //       .catch(err => {
-    //       console.log('Error getting document', err);
-    //     });
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log('Error getting document', err);
+    //         });
+    // };
 
     render() {
         return (
@@ -112,12 +166,12 @@ export default class Main extends Component {
 
                 <Container component="main" maxWidth="sm">
                     <CssBaseline />
-
+                    <button type="submit" onClick={this.getQus}>Start</button>
 
                     <Typography component="h1" variant="h5" align="center">
                         Questions        </Typography>
                     <Typography component="h4" variant="h9  ">
-                        Question 1        </Typography>
+                        {this.state.q1}        </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
@@ -130,8 +184,8 @@ export default class Main extends Component {
                     />
                     <hr>
                     </hr>
-                    <Typography component="h4" variant="h9  ">
-                        Question 2        </Typography>
+                    <Typography component="h4" variant="h9">
+                        {this.state.q2}         </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
@@ -144,8 +198,8 @@ export default class Main extends Component {
                     />
                     <hr>
                     </hr>
-                    <Typography component="h4" variant="h9  ">
-                        Question 3        </Typography>
+                    <Typography component="h4" variant="h9">
+                        {this.state.q3}         </Typography>
                     <AceEditor
                         mode="ace/mode/javascript"
                         theme="tomorrow_night.js"
