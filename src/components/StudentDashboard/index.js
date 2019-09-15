@@ -70,6 +70,7 @@ const INITIAL_STATE = {
   password: '',
   accountType: '',
   error: null,
+  hasExams: false
 };
 
 class StudentDashboard extends React.Component {
@@ -84,25 +85,25 @@ class StudentDashboard extends React.Component {
     let state = this;
     this.props.firebase.doSignOut().then(function() {
       // Sign-out successful.
-      console.log("SIGN OUT")
       state.props.history.push(ROUTES.SIGN_IN);
     }).catch(function(error) {
       // An error happened.
     });
 
   }
-  checkForExams() {
+  startExam() {
+      this.props.history.push(ROUTES.EXAM);
+  }
+  componentDidMount() {
     const { firstName, lastName, email, password } = this.state;
     //Check if student has exam
     let db = firestore();
     let student = db.collection("students").doc(this.props.firebase.getUser().email);
     let getDoc = student.get()
       .then(doc => {
-        if (!doc.exists) {
-        } else {
-          let data = doc.data().exam;
+        if (doc.data().exam) {
+          this.setState({...INITIAL_STATE, hasExam: true})
           //If above line did not cause an exception, then the student has an exam
-          hasExam = true;
         }
       })
       .catch(err => {
@@ -112,9 +113,7 @@ class StudentDashboard extends React.Component {
   }
 
   render() {
-    this.checkForExams()
-    if (!hasExam) {
-
+    if (!this.state.hasExam) {
 
       return (
       <Container component="main" maxWidth="xs">
@@ -133,15 +132,24 @@ class StudentDashboard extends React.Component {
 
 
     } else {
-
-
       return (
         <Container component="main" maxWidth="xs">
-          Test
+          You have an exam!
+          <Grid item xs={6}>
+          <button onClick={this.startExam}>
+            Start
+          </button>
+          <button onClick={new Request(function() { this.startExam() })}>
+            Sign Out
+          </button>
+          </Grid>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
         </Container>
       )
       
-      
+
     }
   }
 }
