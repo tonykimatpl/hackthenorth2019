@@ -13,13 +13,12 @@ import Container from '@material-ui/core/Container';
 import * as ROUTES from '../../constants/routes';
 
 
-const StudentDashboardPage = () => (
+const CongratsPage = () => (
   <div>
-    <StudentDashboardForm />
+    <CongratsForm />
   </div>
 )
 
-var hasExam = false;
 
 function Copyright() {
   return (
@@ -62,22 +61,11 @@ const useStyles = (theme) => {
   }
 };
 
-
-const INITIAL_STATE = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  accountType: '',
-  error: null,
-  hasExam: false
-};
-
-class StudentDashboard extends React.Component {
+class Congrats extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { ...INITIAL_STATE };
+    console.log("Initializing Congrats")
     this.signOut = this.signOut.bind(this);
   }
 
@@ -91,34 +79,12 @@ class StudentDashboard extends React.Component {
     });
 
   }
-  startExam() {
-      console.log("Starting exam...");
-      this.props.history.push(ROUTES.EXAM);
-  }
-  componentDidMount() {
-    const { firstName, lastName, email, password } = this.state;
-    //Check if student has exam
-    let db = firestore();
-    let student = db.collection("students").doc(this.props.firebase.getUser().email);
-    let getDoc = student.get()
-      .then(doc => {
-        if (doc.data().exam) {
-          this.setState({...INITIAL_STATE, hasExam: true})
-          //If above line did not cause an exception, then the student has an exam
-        }
-      })
-      .catch(err => {
-        console.log("ERROR")
-        //student does not have an exam now
-      });
-  }
 
   render() {
-    if (!this.state.hasExam) {
-
+      console.log("Rendering")
       return (
       <Container component="main" maxWidth="xs">
-      You do not have any exams!
+      Your exam has been submitted. Please sign out.
       <Grid item xs={6}>
 
       <button onClick={this.signOut}>
@@ -130,35 +96,13 @@ class StudentDashboard extends React.Component {
       </Box>
     </Container>
       )
-
-
-    } else {
-      let obj = this;
-      return (
-        <Container component="main" maxWidth="xs">
-          You have an exam!
-          <Grid item xs={6}>
-          <button onClick={()=>{obj.startExam()}}>
-            Start
-          </button>
-          <button onClick={()=>{this.signOut()}}>
-            Sign Out
-          </button>
-          </Grid>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </Container>
-      )
-      
-
-    }
+    
   }
 }
 
-const StudentDashboardForm = compose(
+const CongratsForm = compose(
   withRouter,
   withFirebase
-)(StudentDashboard);
+)(Congrats);
 
-export default withStyles(useStyles)(StudentDashboardForm);
+export default withStyles(useStyles)(CongratsForm);

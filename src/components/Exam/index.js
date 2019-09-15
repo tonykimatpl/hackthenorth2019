@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { spacing } from '@material-ui/system';
+import * as ROUTES from '../../constants/routes';
 
 export default class Main extends Component {
 
@@ -64,7 +65,6 @@ export default class Main extends Component {
                         let data = doc.data();
                         const questions = db.collection("exams").doc(data.exam).get()
                             .then(doc1 => {
-                                console.log(doc1.data(), "yoyoyoy")
                                 if (!doc1) {
                                     console.log('No such document!');
                                 } else {
@@ -138,6 +138,7 @@ export default class Main extends Component {
             answer3: "",
 
         });
+        this.props.history.push(ROUTES.CONGRATS);
     };
     // getQus = e => {
 

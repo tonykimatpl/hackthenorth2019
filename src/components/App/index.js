@@ -16,6 +16,7 @@ import Session from '../Session';
 import Exam from '../Exam';
 import StudentDashboard from '../StudentDashboard';
 import ProfDashboard from '../ProfDashboard';
+import CongratsPage from '../Congrats';
 
 
 
@@ -59,6 +60,7 @@ class App extends React.Component {
           <Route path={ROUTES.EXAM} component={Exam} />
           <Route path={ROUTES.STUDENT_DASHBOARD} component={StudentDashboard} />
           <Route path={ROUTES.PROF_DASHBOARD} component={ProfDashboard} />
+          <Route path={ROUTES.CONGRATS} component={CongratsPage} />
         </div>
       </Router>
     )
