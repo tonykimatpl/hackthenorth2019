@@ -18,33 +18,6 @@ let INITIAL_STATE = {
   studentEmail: ''
 }
 
-let saveText = function(user, studentEmail) {
-  let answerString = ""
-  const db = firestore();
-  const examInfo = db.collection("exams").doc(user.email).get()
-  .then(doc => {
-    let data = doc.data();
-    answerString += data.questionOne + "\n";
-    db.collection("students").doc(studentEmail).get()
-    .then(docs => {
-      let dat = docs.data();
-      answerString += dat.answer1 + "\n\n";
-    })
-    answerString += data.questionTwo + "\n";
-    db.collection("students").doc(studentEmail).get()
-    .then(docs => {
-      let dat = docs.data();
-      answerString += dat.answer2 + "\n\n";
-    })
-    answerString += data.questionThree + "\n";
-    db.collection("students").doc(studentEmail).get()
-    .then(docs => {
-      let dat = docs.data();
-      answerString += dat.answer3;
-    })
-  })
-}
-
 class RegisterStudentsBase extends React.Component {
   constructor(props) {
     super(props);
@@ -95,7 +68,6 @@ class RegisterStudentsBase extends React.Component {
         let buttonNode = document.createElement('BUTTON');
 
         buttonNode.innerHTML = `${studentEmail}`;
-        buttonNode.onclick = saveText();
         node.appendChild(buttonNode);
         list.appendChild(node);
 
