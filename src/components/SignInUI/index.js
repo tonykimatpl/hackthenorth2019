@@ -13,11 +13,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
+import { firestore } from 'firebase';
 import * as ROUTES from '../../constants/routes';
+
 const SignInPage = () => (
   <div>
     <SignInForm />
@@ -89,7 +90,7 @@ class SignInFormBase extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
   handleSubmit = event => {
-    console.log('hello');
+
     const { email, password } = this.state;
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)

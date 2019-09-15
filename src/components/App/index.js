@@ -13,6 +13,8 @@ import AdminPage from '../Admin';
 import SignInUIPage from '../SignInUI';
 import SignUpUIPage from '../SignUpUI';
 import Session from '../Session';
+import Exam from '../Exam';
+
 
 
 import * as ROUTES from '../../constants/routes';
@@ -52,6 +54,7 @@ class App extends React.Component {
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.SESSION} component={Session} />
           <Route path={ROUTES.NEW_EXAM} component={NewExamPage} />
+          <Route path={ROUTES.EXAM} component={Exam} />
         </div>
       </Router>
     )

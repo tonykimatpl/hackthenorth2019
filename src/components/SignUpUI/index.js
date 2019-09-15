@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -11,9 +13,9 @@ import Container from '@material-ui/core/Container';
 
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
-import { FirebaseContext, withFirebase } from '../Firebase'
+import { FirebaseContext, withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 import { firestore } from 'firebase';
@@ -72,6 +74,7 @@ const INITIAL_STATE = {
   lastName: '',
   email: '',
   password: '',
+  accountType: '',
   error: null,
 };
 
@@ -85,7 +88,7 @@ class SignUpFormBase extends React.Component {
   }
 
   handleSubmit = event => {
-    const { firstName, lastName, email, password } = this.state;
+    const { firstName, lastName, email, password, accountType} = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -95,7 +98,8 @@ class SignUpFormBase extends React.Component {
         const db = firestore()
         db.collection("professors").doc(email).set({
           firstName: firstName,
-          lastName: lastName
+          lastName: lastName,
+          accountType: accountType,
         })
         .then(function() {
           console.log("Success adding to database");
@@ -197,6 +201,14 @@ class SignUpFormBase extends React.Component {
                 />
               </Grid>
             </Grid>
+              <RadioGroup aria-label="gender" name="gender1" onChange={(event)=>{
+                this.setState({
+                  accountType: event.target.value
+                })
+              }}>
+                <FormControlLabel value="prof" control={<Radio />} label="I'm a Professor" />
+                <FormControlLabel value="student" control={<Radio />} label="I'm a Student" />
+              </RadioGroup>
             <Button
               type="submit"
               fullWidth
@@ -205,11 +217,11 @@ class SignUpFormBase extends React.Component {
             >
               Sign Up
           </Button>
-            <Grid container justify="flex-end">
+            <Grid container justify="center">
               <Grid item>
-                <Button href={ROUTES.SIGN_IN} variant="body2">
+                <a href={ROUTES.SIGN_IN} variant="body2">
                   Already have an account? Sign in
-              </Button>
+              </a>
               </Grid>
             </Grid>
           </form>
