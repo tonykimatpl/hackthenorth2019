@@ -46,14 +46,14 @@ class ProfDashboard extends React.Component {
        </Box>
        <div>
          <Box display="flex" justifyContent="center" alignItems="center">
-           <Link href={ROUTES.EXAM}>
+           <Link href={ROUTES.NEW_EXAM}>
               <Button
                type="button"
                fullWidth
                variant="contained"
                color="primary"
              >
-               Exams
+               Create an Exam
    </Button>
            </Link>
          </Box>

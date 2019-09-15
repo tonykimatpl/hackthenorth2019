@@ -7,7 +7,6 @@ import { withFirebase } from '../Firebase'
 
 import NewExamPage from '../NewExam';
 import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import SignInUIPage from '../SignInUI';
@@ -53,7 +52,6 @@ class App extends React.Component {
           <Route path={ROUTES.SIGN_UP} component={SignUpUIPage} />
           <Route path={ROUTES.SIGN_IN} component={SignInUIPage} />
           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-          <Route path={ROUTES.HOME} component={HomePage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.SESSION} component={Session} />

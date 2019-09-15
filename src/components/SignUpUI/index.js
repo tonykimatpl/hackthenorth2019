@@ -94,8 +94,14 @@ class SignUpFormBase extends React.Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
+        this.setState({ ...INITIAL_STATE });  
+
+        let t = this;
+        if (accountType === 'student') {
+          t.props.history.push(ROUTES.STUDENT_DASHBOARD);
+        } else {
+          t.props.history.push(ROUTES.PROF_DASHBOARD);
+        }
 
         const db = firestore();
         if (accountType != "student") {

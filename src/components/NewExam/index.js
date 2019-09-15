@@ -74,6 +74,7 @@ class NewExamFormBase extends React.Component {
         const db = firestore();
         let user = this.props.firebase.getUser();
 
+        let t = this;
         db.collection('exams').doc(user.email).set({
             questionOne: questionOne,
             questionTwo: questionTwo,
@@ -82,6 +83,7 @@ class NewExamFormBase extends React.Component {
         })
             .then(function () {
                 console.log('Success adding new exam');
+                t.props.history.push(ROUTES.PROF_DASHBOARD);
             })
             .catch(function (error) {
                 console.error('Error adding to database');
