@@ -17,7 +17,7 @@ import Exam from '../Exam';
 import StudentDashboard from '../StudentDashboard';
 import ProfDashboard from '../ProfDashboard';
 import CongratsPage from '../Congrats';
-import RegisterStudents from '../RegisterStudents';
+import RegisterStudents from '../registerStudents';
 
 
 

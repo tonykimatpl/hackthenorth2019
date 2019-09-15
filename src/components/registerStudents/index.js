@@ -1,16 +1,11 @@
-import React from './node_modules/react';
-import Box from './node_modules/@material-ui/core/Box';
-import { withRouter } from './node_modules/react-router-dom';
+import React from 'react';
+import Box from '@material-ui/core/Box';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import { firestore } from './node_modules/firebase';
-import Firebase from './node_modules/firebase';
-import * as ROUTES from '../../constants/routes';
-import clsx from './node_modules/clsx';
-import { makeStyles } from './node_modules/@material-ui/core/styles';
-import MenuItem from './node_modules/@material-ui/core/MenuItem';
-import TextField from './node_modules/@material-ui/core/TextField';
-import Button from './node_modules/@material-ui/core/Button';
+import { firestore } from 'firebase';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { ActionSettingsPower } from 'material-ui/svg-icons';
 
 const registerStudents = () => (
@@ -23,9 +18,9 @@ let INITIAL_STATE = {
   studentEmail: ''
 }
 
-let saveText = function() {
+let saveText = function(user, studentEmail) {
   let answerString = ""
-  const db = firebase.firestore();
+  const db = firestore();
   const examInfo = db.collection("exams").doc(user.email).get()
   .then(doc => {
     let data = doc.data();
@@ -83,7 +78,7 @@ class RegisterStudentsBase extends React.Component {
         }
         db.collection('students').doc(studentEmail).set(student)
           .then(function () {
-            alert( ${studentEmail} added to exam)
+            alert(`${studentEmail} added to exam`)
           })
           .catch(function (error) {
             console.log(error);
@@ -99,8 +94,8 @@ class RegisterStudentsBase extends React.Component {
         let node = document.createElement('LI')
         let buttonNode = document.createElement('BUTTON');
 
-        buttonNode.innerHTML = ${studentEmail};
-        buttonNode.onclick="saveText()";
+        buttonNode.innerHTML = `${studentEmail}`;
+        buttonNode.onclick = saveText();
         node.appendChild(buttonNode);
         list.appendChild(node);
 
