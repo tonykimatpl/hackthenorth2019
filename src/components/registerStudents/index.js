@@ -15,33 +15,86 @@ import Button from '@material-ui/core/Button';
 const registerStudents = () => (
 
   <div>
-    <Box display = "flex" justifyContent = "center" alignItems = "center">
-        <h1>Student Exam Registration Portal</h1>
-    </Box>
-
-    <Box display = "flex" justifyContent = "center" alignItems = "center">
-    <form noValidate autoComplete="off">
-      <TextField
-        id="outlined-name"
-        label="E-mail"
-        margin="normal"
-        variant="outlined"
-      />
-      </form>
-      </Box>
-      <Box display = "flex" justifyContent = "center" alignItems = "center">
-        <Button variant="contained" color="primary">
-          Add Student
-          </Button>
-          </Box>
+    <RegisterStudentsForm />
   </div>
 );
 
-let db = firestore();
-Firebase.db.collection("exams").doc("CEG2136").collection("students")
-.onSnapshot(function(doc) {
-console.log("Current data: ", doc.data());
-});
+let INITIAL_STATE = {
+  studentEmail: ''
+}
+class RegisterStudentsBase extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = INITIAL_STATE;
 
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  handleSubmit = event => {
+
+    const { studentEmail } = this.state;
+    let db = firestore();
+    let user = this.props.firebase.getUser();
+    console.log(user.email);
+    console.log(studentEmail);
+    let exam = db.collection('exams').doc(user.email)
+      .collection('students').doc(studentEmail).set({
+        studentEmail: studentEmail
+      })
+      .then(function() {
+        alert(`${studentEmail} added to exam`)
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    event.preventDefault();
+  }
+
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  render() {
+
+    return (
+      <React.Fragment>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <h1>Student Exam Registration Portal</h1>
+        </Box>
+
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+            <TextField
+              id="emmail"
+              label="E-mail"
+              margin="normal"
+              variant="outlined"
+              name="studentEmail"
+              autoComplete="email"
+              autoFocus
+              onChange={this.onChange}
+            />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Add Student
+         </Button>
+            </Box>
+          </form>
+        </Box>
+      </React.Fragment>
+    )
+  }
+}
+
+const RegisterStudentsForm = compose(
+  withRouter,
+  withFirebase
+)(RegisterStudentsBase)
 
 export default registerStudents;
