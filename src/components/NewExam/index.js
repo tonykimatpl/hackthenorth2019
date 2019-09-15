@@ -72,9 +72,9 @@ class NewExamFormBase extends React.Component {
     handleSubmit = event => {
         const { courseCode, questionOne, questionTwo, questionThree } = this.state;
         const db = firestore();
+        let user = this.props.firebase.getUser();
 
-        db.collection('exams').add({
-            professor: this.authUser.email,
+        db.collection('exams').doc(user.email).set({
             questionOne: questionOne,
             questionTwo: questionTwo,
             questionThree: questionThree,
@@ -86,7 +86,6 @@ class NewExamFormBase extends React.Component {
             .catch(function (error) {
                 console.error('Error adding to database');
                 console.error(error);
-                this.setState({ error });
             });
 
         event.preventDefault();
@@ -170,7 +169,7 @@ class NewExamFormBase extends React.Component {
                                 onChange={this.onChange}
                             />
                         </Grid>
-                        <Button href='/'
+                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
