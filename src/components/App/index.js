@@ -14,6 +14,8 @@ import SignInUIPage from '../SignInUI';
 import SignUpUIPage from '../SignUpUI';
 import Session from '../Session';
 import Exam from '../Exam';
+import StudentDashboard from '../StudentDashboard';
+import ProfDashboard from '../ProfDashboard';
 
 
 
@@ -55,6 +57,8 @@ class App extends React.Component {
           <Route path={ROUTES.SESSION} component={Session} />
           <Route path={ROUTES.NEW_EXAM} component={NewExamPage} />
           <Route path={ROUTES.EXAM} component={Exam} />
+          <Route path={ROUTES.STUDENT_DASHBOARD} component={StudentDashboard} />
+          <Route path={ROUTES.PROF_DASHBOARD} component={ProfDashboard} />
         </div>
       </Router>
     )
