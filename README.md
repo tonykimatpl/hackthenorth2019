@@ -1,8 +1,13 @@
+Professors and users can register for accounts on our web app, preferably with their school issued emails. The professor can then create exams, which are stored in a database along with the questions. The professor then has to add the individual students to the exam, and they will then have access to write that exam using that email associated with their account.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### 'npm install'
+Installs required dependencies. Should run this before 'npm start' is called.
 
 ### `npm start`
 
